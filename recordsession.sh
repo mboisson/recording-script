@@ -26,13 +26,12 @@ git branch gh-pages
 git checkout gh-pages
 #git config --global push.default matching
 
-export HISTFILE=${REPODIR}/command_history.txt
 export SCRIPTFILE=${REPODIR}/"${FILENAME}"
 export HTML_SCRIPTFILE=$SCRIPTFILE.html
 export TXT_SCRIPTFILE=$SCRIPTFILE.txt
 
 # initialize files
-for FILE in $HISTFILE $HTML_SCRIPTFILE; do
+for FILE in $HTML_SCRIPTFILE; do
 	if [[ -f $FILE ]]; then
 		echo "" > $FILE
 	else
@@ -41,7 +40,7 @@ for FILE in $HISTFILE $HTML_SCRIPTFILE; do
 done
 function update_files {
 	pushd $REPODIR
-	for FILE in $HISTFILE $HTML_SCRIPTFILE; do
+	for FILE in $HTML_SCRIPTFILE; do
 		git add $FILE
 	done
 	git commit -m 'updated history and script files' > /dev/null
@@ -58,7 +57,7 @@ function synchronize_daemon {
 }
 
 popd
-export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+#export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w \$\[\033[00m\] '
 
 synchronize_daemon &
