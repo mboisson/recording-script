@@ -13,6 +13,13 @@ brew install gnu-sed gawk coreutils
 ```
 git clone https://github.com/mboisson/recording-script
 ```
+## To install on Linux: 
+
+* Clone the `https://github.com/mboisson/recording-script` repository, and add it to your PATH. 
+
+```
+git clone https://github.com/mboisson/recording-script
+```
 
 ## To use: 
 
