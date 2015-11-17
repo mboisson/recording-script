@@ -17,13 +17,13 @@ git clone https://github.com/mboisson/recording-script
 ## To use: 
 
 ```
-recordsession.sh git@github.com:<user>/<repo>.git <filename> [delay]
+recordsession.sh <-r|--repo url> [-f|--filename <name>] [-d|--delay <delay>] [-s|--short_path] [-h|--help] 
 ```
 
 For example, the `.html` at [http://mboisson.github.io/testing/bash_lesson.html#end](http://mboisson.github.io/testing/bash_lesson.html#end) was recorded using the command
 
 ```
-recordsession.sh git@github.com:mboisson/testing.git bash_lesson 10
+recordsession.sh --repo git@github.com:mboisson/testing.git --filename bash_lesson --delay 10
 ```
 
 * The script pushes from the `gh-pages` branch, and creates one if it does not exist. It has been used with [Software Carpentry](http://software-carpentry.org/) event pages. 

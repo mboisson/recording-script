@@ -1,15 +1,53 @@
 #!/bin/bash
-echo $0
-REPO=$1
-if [[ $# -gt 1 ]]; then
-	FILENAME=$2
-else
-	FILENAME=script
-fi
-if [[ $# -gt 2 ]]; then
-	DELAY=$3
-else
-	DELAY=60
+# default values
+FILENAME=script
+DELAY=60
+SHORTPATH="false"
+
+function print_usage {
+	echo "$0 <-r|--repo url> [-f|--filename <name>] [-d|--delay <delay>] [-s|--short_path]"
+	echo "	-r|--repo <url>"
+	echo "		should be the url of a github repository that is configured to use SSH with keys"
+	echo "	-f|--filename <name>"
+	echo "		name of the html page that will be created (without the .html extension). Defaults to \"script\""
+	echo "	-d|--delay <delay>"
+	echo "		delay, in seconds, between each synchronization with github. Defaults to 60 seconds"
+	echo "	-s|--short_path"
+	echo "		enables short paths in the prompt. If this flag is present, the path will only contain the inner-most directory rather than the whole path. Default=disabled"
+	exit 1
+}
+while [[ $# -ge 1 ]]
+do
+	key="$1"
+	case $key in
+		-h|--help)
+			print_usage
+			;;
+		-r|--repo)
+			REPO="$2"
+			shift # past argument
+			;;
+		-f|--filename)
+			FILENAME="$2"
+			shift # past argument
+			;;
+		-d|--delay)
+			DELAY="$2"
+			shift # past argument
+			;;
+		-s|--short_path)
+			SHORTPATH="true"
+			;;
+		*)
+			print_usage
+		# unknown option
+		;;
+	esac
+	shift # past argument or value
+done
+
+if [[ -z $REPO ]]; then
+	print_usage
 fi
 
 # clone the repo in a temporary directory
