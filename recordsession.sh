@@ -96,14 +96,23 @@ function synchronize_daemon {
 
 popd
 #export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
-export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w \$\[\033[00m\] '
+if [[ "$SHORTPATH" == "true" ]]; then
+	export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \W \$\[\033[00m\] '
+else
+	export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w \$\[\033[00m\] '
+fi
 
 synchronize_daemon &
 
 # intercept the kill and kills the daemonized function when this script exits
 trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 
-script -t 0 -q $TXT_SCRIPTFILE
+# Mac OSX's script has different options, and does not support -V
+if ! script -V >/dev/null 2>&1; then
+	script -t 0 -q $TXT_SCRIPTFILE
+else
+	script -f -q $TXT_SCRIPTFILE
+fi
 
 update_files
 rm -rf $TMPDIR
